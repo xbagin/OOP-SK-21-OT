@@ -30,15 +30,7 @@ public class EventHandler extends UniversalAdapter {
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
-        if (this.commandIs(e, EventHandler.MODES[Modes.TREE.pos])) {
-            this.mode = EventHandler.MODES[Modes.TREE.pos];
-        }
-        if (this.commandIs(e, EventHandler.MODES[Modes.HOUSE.pos])) {
-            this.mode = EventHandler.MODES[Modes.HOUSE.pos];
-        }
-        if (this.commandIs(e, EventHandler.MODES[Modes.ROAD.pos])) {
-            this.mode = EventHandler.MODES[Modes.ROAD.pos];
-        }
+        this.setMode(e);
         this.label.setText(this.mode);
         this.label.repaint();
     }
@@ -108,13 +100,7 @@ public class EventHandler extends UniversalAdapter {
                     canvas.repaint();
                 }
             }
-            if (this.modeIs(Modes.HOUSE) || this.modeIs(Modes.TREE)) {
-                MyShape shape = canvas.getShape();
-                if (shape != null) {
-                    shape.setCoordinates(e.getX(), e.getY());
-                    canvas.repaint();
-                }
-            }
+            this.moveShape(e, canvas);
         }
     }
 
@@ -150,13 +136,25 @@ public class EventHandler extends UniversalAdapter {
     public void mouseMoved(MouseEvent e) {
         super.mouseMoved(e);
         if (e.getSource() instanceof MyPanel) {
-            MyPanel canvas = (MyPanel) e.getSource();
-            if (this.modeIs(Modes.HOUSE) || this.modeIs(Modes.TREE)) {
-                MyShape shape = canvas.getShape();
-                if (shape != null) {
-                    shape.setCoordinates(e.getX(), e.getY());
-                    canvas.repaint();
-                }
+            this.moveShape(e, (MyPanel) e.getSource());
+        }
+    }
+
+    private void setMode(ActionEvent e) {
+        for (String mode : EventHandler.MODES) {
+            if (this.commandIs(e, mode)) {
+                this.mode = mode;
+                break;
+            }
+        }
+    }
+
+    private void moveShape(MouseEvent e, MyPanel canvas) {
+        if (this.modeIs(Modes.HOUSE) || this.modeIs(Modes.TREE)) {
+            MyShape shape = canvas.getShape();
+            if (shape != null) {
+                shape.setCoordinates(e.getX(), e.getY());
+                canvas.repaint();
             }
         }
     }
