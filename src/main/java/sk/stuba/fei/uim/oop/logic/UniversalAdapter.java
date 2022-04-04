@@ -2,7 +2,7 @@ package sk.stuba.fei.uim.oop.logic;
 
 import java.awt.event.*;
 
-public class UniversalAdapter implements ActionListener, MouseListener, MouseMotionListener {
+public abstract class UniversalAdapter implements ActionListener, MouseListener, MouseMotionListener {
     @Override
     public void actionPerformed(ActionEvent e) { }
 
