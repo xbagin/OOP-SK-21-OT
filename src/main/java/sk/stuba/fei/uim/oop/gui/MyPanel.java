@@ -65,13 +65,13 @@ public class MyPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.shapes.forEach(shape -> shape.draw(g));
+        this.lines.forEach(line -> line.draw(g));
         if (this.shape != null) {
             Color color = this.shape.getColor();
             this.shape.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 127));
             this.shape.draw(g);
             this.shape.setColor(color);
         }
-        this.lines.forEach(line -> line.draw(g));
         if (this.line != null) {
             this.line.draw(g);
         }
