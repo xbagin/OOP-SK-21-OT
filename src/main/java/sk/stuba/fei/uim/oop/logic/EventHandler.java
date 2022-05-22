@@ -10,6 +10,7 @@ import sk.stuba.fei.uim.oop.shapes.Tree;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.util.Locale;
 import java.util.Objects;
 
 public class EventHandler extends UniversalAdapter {
@@ -109,6 +110,8 @@ public class EventHandler extends UniversalAdapter {
         super.mouseEntered(e);
         if (e.getSource() instanceof MyPanel) {
             MyPanel canvas = (MyPanel) e.getSource();
+            // throws exception, but if all strings are in Modes, it's OK ... better THAN numbers !!!
+            //if (Objects.equals(Modes.valueOf(this.mode.toUpperCase(Locale.ROOT)), Modes.TREE)) {//this.modeIs(Modes.TREE)) {
             if (this.modeIs(Modes.TREE)) {
                 canvas.setShape(new Tree(e.getX(), e.getY(), canvas.getColor()));
                 canvas.repaint();
@@ -164,6 +167,7 @@ public class EventHandler extends UniversalAdapter {
     }
 
     private boolean modeIs(Modes mode) {
-        return Objects.equals(EventHandler.MODES[mode.pos], this.mode);
+        //return Objects.equals(EventHandler.MODES[mode.pos], this.mode);
+        return Objects.equals(Modes.valueOf(this.mode.toUpperCase(Locale.ROOT)), mode);
     }
 }
