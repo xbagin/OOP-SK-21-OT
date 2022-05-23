@@ -16,23 +16,23 @@ import java.util.Objects;
 public class EventHandler extends UniversalAdapter {
     @Getter
     private final JLabel label;
-    private String mode;
-    private final static String[] MODES = new String[] {"Tree", "House", "Road"};
+    private Modes mode;
+    //private final static String[] MODES = new String[] {"Tree", "House", "Road"};
 
     public EventHandler() {
         super();
         this.label = new JLabel();
         this.label.setHorizontalAlignment(JLabel.CENTER);
         this.label.setOpaque(true);
-        this.mode = EventHandler.MODES[0];
-        this.label.setText(this.mode);
+        this.mode = Modes.TREE;  // EventHandler.MODES[0];
+        this.label.setText(this.mode.name());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         super.actionPerformed(e);
         this.setMode(e);
-        this.label.setText(this.mode);
+        this.label.setText(this.mode.name());
         this.label.repaint();
     }
 
@@ -144,12 +144,15 @@ public class EventHandler extends UniversalAdapter {
     }
 
     private void setMode(ActionEvent e) {
-        for (String mode : EventHandler.MODES) {
+        /*-for (String mode : EventHandler.MODES) {
             if (this.commandIs(e, mode)) {
                 this.mode = mode;
                 break;
             }
-        }
+        }*/
+        try {
+            this.mode = Modes.valueOf(e.getActionCommand().toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ignored) { }
     }
 
     private void moveShape(MouseEvent e, MyPanel canvas) {
@@ -161,13 +164,14 @@ public class EventHandler extends UniversalAdapter {
             }
         }
     }
-
+/* not necessary
     private boolean commandIs(ActionEvent e, String command) {
         return Objects.equals(e.getActionCommand(), command);
     }
-
+*/
     private boolean modeIs(Modes mode) {
-        //return Objects.equals(EventHandler.MODES[mode.pos], this.mode);
-        return Objects.equals(Modes.valueOf(this.mode.toUpperCase(Locale.ROOT)), mode);
+        //-return Objects.equals(EventHandler.MODES[mode.pos], this.mode);
+        //return Objects.equals(Modes.valueOf(this.mode.toUpperCase(Locale.ROOT)), mode);
+        return Objects.equals(this.mode, mode);
     }
 }
